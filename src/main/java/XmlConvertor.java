@@ -2,13 +2,12 @@ import java.lang.reflect.Field;
 import java.util.Locale;
 
 public class XmlConvertor {
-
 //<book>
 //  <title>Book name</title>
 //  <pages>100</pages>
 //</book>
 
-    public static String convertBook(Object any) throws
+    public static String convertObject(Object any) throws
             IllegalAccessException {
 
         final StringBuilder sb = new StringBuilder();
@@ -21,18 +20,18 @@ public class XmlConvertor {
                 .append(">");
         for (Field fieldName : infoFields) {
             fieldName.setAccessible(true);
-            String name = fieldName.get(any).toString();
+            String fieldNameName = fieldName.getName();
             if (!fieldName.isAnnotationPresent(Ignore.class)) {
                 if (fieldName.isAnnotationPresent(Pseudonym.class)) {
                     Pseudonym pseudonym = fieldName.getAnnotation(Pseudonym.class);
-                    name = pseudonym.value();
+                    fieldNameName = pseudonym.value();
                 }
                 sb.append("\n\t<")
-                        .append(fieldName.getName())
+                        .append(fieldNameName)
                         .append(">")
-                        .append(name)
+                        .append(fieldName.get(any))
                         .append("</")
-                        .append(fieldName.getName())
+                        .append(fieldNameName)
                         .append(">");
             }
         }

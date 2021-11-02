@@ -1,5 +1,5 @@
 public class Book {
-    @Pseudonym("Author")
+    @Pseudonym("Pseudonym")
     private String author;
     private String title;
     @Ignore
